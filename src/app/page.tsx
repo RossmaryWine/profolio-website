@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FeaturedProjectRow } from "@/components/FeaturedProjectRow";
 import { MemoryBar } from "@/components/MemoryBar";
+import { ContactSection } from "@/components/ContactSection";
 import { featuredProjects } from "@/data/projects";
 
 export default function HomePage() {
@@ -17,15 +18,17 @@ export default function HomePage() {
             description="From-scratch RTOS kernel work, FPGA interrupt systems, and hardware interface design: the strongest of what I've built."
             action={{ label: "View all projects", href: "/projects" }}
           />
-          <div className="mt-12 flex flex-col gap-8 sm:gap-10">
-            {featuredProjects.map((project, index) => (
-              <FeaturedProjectRow key={project.slug} project={project} index={index} />
+          <div className="mt-12 flex flex-col divide-y divide-line-soft border-y border-line">
+            {featuredProjects.map((project) => (
+              <FeaturedProjectRow key={project.slug} project={project} />
             ))}
           </div>
         </div>
       </section>
 
       <MemoryBar />
+
+      <ContactSection />
     </>
   );
 }

@@ -31,11 +31,8 @@ export default function AboutPage() {
               the RTOS kernel
             </Link>{" "}
             and{" "}
-            <Link
-              href="/projects/ece298-reservoir-adapter"
-              className="text-signal hover:text-signal-soft"
-            >
-              the ECE 298 adapter board
+            <Link href="/projects" className="text-signal hover:text-signal-soft">
+              the reservoir system adapter board
             </Link>{" "}
             for specifics.
           </p>

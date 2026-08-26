@@ -30,10 +30,9 @@ export const projects: Project[] = [
       "Implemented a SysTick-driven preemptive Earliest Deadline First (EDF) scheduler with dynamically allocated task stacks, deadline-based priorities, task periodicity, and runtime deadline updates.",
     ],
     image: {
-      src: "/images/projects/rtos-memory-map.svg",
-      alt: "Diagram of the RTOS kernel's memory allocator and context-switch flow",
-      caption:
-        "Simplified view of the free-list allocator and PendSV context-switch path.",
+      src: "/images/projects/rtos-nucleo-board.png",
+      alt: "STM32 Nucleo development board running the RTOS kernel firmware",
+      caption: "The kernel running on the STM32 Nucleo board.",
     },
     github: undefined, // TODO: Add GitHub repo URL for the RTOS kernel project
     detail: {
@@ -126,7 +125,7 @@ export const projects: Project[] = [
   },
   {
     slug: "ece298-reservoir-adapter",
-    name: "ECE 298 Reservoir System Adapter",
+    name: "Reservoir System Adapter",
     oneLiner:
       "An STM32 interface PCB coordinating motor drivers, an ultrasonic sensor, an RPM sensor, a servo, and an RGB indicator for a reservoir-system testbed.",
     period: undefined, // TODO: Add project dates
@@ -150,9 +149,9 @@ export const projects: Project[] = [
       "Buffered and level-shifted MCU I/O to the peripheral board using CMOS4050 and 74HCT541 logic, with a dedicated timer/display header for system status.",
     ],
     image: {
-      src: "/images/projects/ece298-reservoir-adapter-schematic.png",
-      alt: "Proteus schematic of the ECE 298 Reservoir System Adapter board, showing motor drivers, sensor headers, and buffer ICs",
-      caption: "Schematic capture of the adapter board (Proteus).",
+      src: "/images/projects/stm32-clock-configuration.png",
+      alt: "STM32CubeMX clock configuration view for the adapter board's microcontroller",
+      caption: "STM32CubeMX clock configuration for the board's MCU.",
     },
     github: undefined, // TODO: Add GitHub/repo link
     detail: undefined,
@@ -196,6 +195,11 @@ export const projects: Project[] = [
       "Built a real-time focus-monitoring prototype using Solace Agent Mesh to analyze camera-derived physiological and behavioral data and trigger focus alerts.",
       "Developed a Python UDP pipeline to parse and normalize live sensor data (heart rate, breathing, blink, and speech events) into JSON for agent processing.",
     ],
+    image: {
+      src: "/images/projects/ottohack8-integration-diagram.jpeg",
+      alt: "Diagram of the agent mesh routing signals between data sources and platform integrations",
+      caption: "Solace Agent Mesh routing signals between sources and integrations.",
+    },
     github: undefined, // TODO: Add GitHub/repo link
   },
   {

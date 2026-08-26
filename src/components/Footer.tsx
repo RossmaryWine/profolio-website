@@ -38,7 +38,7 @@ export function Footer() {
       </div>
       <div className="container-content flex flex-col gap-2 border-t border-line-soft py-5 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} {site.name}. Built with Next.js &amp; Tailwind CSS.</p>
-        <Link href="/contact" className="hover:text-signal">
+        <Link href="/#contact" className="hover:text-signal">
           Get in touch →
         </Link>
       </div>
