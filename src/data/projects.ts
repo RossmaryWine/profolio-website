@@ -36,59 +36,23 @@ export const projects: Project[] = [
     },
     github: undefined, // TODO: Add GitHub repo URL for the RTOS kernel project
     detail: {
-      overview:
-        "A real-time executive (RTOS kernel) written in C for the STM32 ARM Cortex-M4, covering the three subsystems a kernel needs to run concurrent, deadline-aware tasks on bare metal: a task/scheduler layer, an SVC-based syscall interface, and a dynamic memory allocator that never calls malloc().",
-      problem:
-        "Bare-metal firmware that needs to run several concurrent tasks with timing guarantees can't rely on a general-purpose OS or an off-the-shelf heap allocator, since both introduce overhead and non-determinism that a real-time system can't afford. The kernel had to provide task isolation, preemptive scheduling against deadlines, and safe dynamic memory allocation, all built directly on Cortex-M4 exception handling.",
-      architecture: [
-        "Kernel entry points (osKernelInit, osCreateTask, osKernelStart, osYield, osSleep, osTaskInfo, osGetTID, osTaskExit, osSetDeadline) are exposed to user tasks as SVC calls. Each wrapper loads arguments into registers and issues `svc`, so kernel state is only ever mutated from a single, consistently-prioritized exception context.",
-        "A central SVC_Handler_Main dispatcher decodes the SVC immediate from the faulting instruction and routes to the matching handler, falling through to the memory-allocator's own SVC dispatch table for allocation-related calls.",
-        "Each task is tracked in a fixed-size array of Task Control Blocks (TCBs) holding its entry point, saved stack pointer, state (READY / RUNNING / SLEEPING / DORMANT), and deadline/timeslice fields.",
-        "Task stacks are not statically reserved: each task's stack is obtained from the kernel's own dynamic allocator at creation time and released back to the free list on task exit.",
+      description: [
+        "A real-time kernel written in C for the STM32 ARM Cortex-M4, running concurrent, deadline-aware tasks on bare metal.",
+        "Needed deterministic scheduling and memory management without a general-purpose OS or the overhead of standard malloc().",
+        "Three subsystems: an SVC-based syscall layer, PendSV context switching, and a malloc-free memory allocator.",
       ],
-      implementation: [
-        "Context switching is driven by the PendSV exception. The outgoing task's R4–R11 are pushed onto its own stack (STMDB), control passes to a C routine (osPendSVSwitch) that runs the scheduler and returns the incoming task's saved stack pointer, and R4–R11 are then popped for the incoming task before an exception return with an EXC_RETURN value forced back to Thread mode / PSP.",
-        "Scheduling policy is Earliest Deadline First: a SysTick handler running every 1 ms decrements the remaining timeslice (relative deadline) of every READY/RUNNING task and the sleep counter of every SLEEPING task, waking tasks and requesting a context switch through PendSV when a shorter deadline becomes ready.",
-        "SVCall, SysTick, and PendSV are deliberately given adjacent, low interrupt priorities. SysTick and PendSV specifically share the lowest priority, so a timer tick can never preempt a partially-restored PendSV context switch.",
-        "A dedicated idle path (the null task) simply yields in a loop, so the scheduler always has a valid task to dispatch even when no user task is READY.",
-        "The very first transition from main() into the task scheduler has no 'outgoing' task to save, so a small dedicated bootstrap stack gives PendSV a valid initial PSP for that one-time transition.",
-        "Memory is served from a single heap region (sized from the linker-provided image end to the top of stack) by a first-fit allocator over a doubly linked free list kept sorted by address, using 4-byte alignment and a minimum block size to avoid unusable slivers.",
-        "Deallocation validates the freed pointer against heap bounds, alignment, and the recorded owning task ID before returning a block to the free list, then coalesces it with an adjacent free neighbor on either side to limit fragmentation.",
-      ],
-      challenges: [
-        "Keeping a context switch atomic with respect to the timer tick: SysTick and PendSV share the lowest interrupt priority specifically so a tick can't interrupt PendSV mid-restore and corrupt the incoming task's register state.",
-        "Bootstrapping the first-ever context switch, which has no valid outgoing task stack to save from, using a small dedicated bootstrap stack and a first-switch flag checked inside the PendSV C handler.",
-        "Guarding against re-entrant context-switch requests: a context_switch_running flag prevents multiple SVC calls (e.g. a task creation that also triggers a switch) from pending PendSV more than once.",
-        "Reclaiming a task's dynamically allocated stack safely on exit: release has to run through the same ownership-checked, coalescing deallocation path as any other free, so a dead task's memory doesn't fragment or corrupt the free list.",
-        "Validating every pointer passed to the deallocator (bounds, 4-byte alignment, and task ownership) since a bad free from user-task code should fail safely rather than corrupt kernel memory.",
-      ],
-      keyComponents: [
-        {
-          name: "SVC syscall layer",
-          description:
-            "Inline-assembly wrappers (osCreateTask, osYield, osSleep, osSetDeadline, …) that marshal arguments into registers and trap into the kernel via `svc`, decoded by a single SVC_Handler_Main dispatcher.",
-        },
-        {
-          name: "PendSV context switch",
-          description:
-            "Hand-written ARM assembly (os_cpu.s) that saves/restores R4–R11 around a C scheduler call and performs the exception return back to Thread mode on the process stack.",
-        },
-        {
-          name: "EDF scheduler",
-          description:
-            "SysTick-driven Earliest Deadline First policy operating over TCB timeslice/deadline fields, with periodic-task support via osPeriodYield.",
-        },
-        {
-          name: "First-fit memory allocator",
-          description:
-            "Address-sorted doubly linked free list with 4-byte alignment, block splitting, coalescing, per-task ownership tracking, and external-fragmentation counting (k_mem_count_extfrag), no malloc().",
-        },
+      howIBuiltIt: [
+        "Exposed kernel entry points (osCreateTask, osYield, osSleep, ...) to tasks as SVC calls, decoded by a single SVC_Handler_Main dispatcher.",
+        "Wrote the PendSV context switch in ARM assembly: save/restore R4–R11 around a C scheduler call, then return to Thread mode on the process stack.",
+        "Built a SysTick-driven preemptive EDF scheduler that requests a context switch through PendSV whenever a shorter deadline becomes ready.",
+        "Gave SVCall, SysTick, and PendSV adjacent low priorities, with SysTick and PendSV sharing the lowest, so a timer tick can never preempt a partially restored context switch.",
+        "Wrote a first-fit allocator over an address-sorted free list: 4-byte alignment, block splitting, coalescing, and per-task ownership tracking, no malloc().",
+        "Validated every freed pointer's bounds, alignment, and owning task before returning it to the free list.",
       ],
       results: [
-        "Successfully implemented dynamic task creation and termination, SVC-based kernel operations, and PendSV-driven concurrent task execution on STM32 Cortex-M4 hardware.",
-        "Delivered a working preemptive EDF scheduler supporting dynamically allocated task stacks, deadline-based priorities, task periodicity, and runtime deadline updates.",
-        "Implemented block splitting, coalescing, and external-fragmentation tracking in the allocator with zero reliance on the C standard library heap.",
-        // TODO: Add quantified results if available — e.g. measured context-switch latency, scheduling jitter, worst-case interrupt latency, or heap fragmentation under a benchmark workload.
+        "Delivered dynamic task creation/termination, SVC-based kernel operations, and PendSV-driven concurrent task execution on real Cortex-M4 hardware.",
+        "Working preemptive EDF scheduler with dynamically allocated task stacks, deadline priorities, task periodicity, and runtime deadline updates.",
+        "Allocator supports block splitting, coalescing, and external-fragmentation tracking, with zero reliance on the C standard library heap.",
       ],
       technologies: [
         "C",
@@ -97,7 +61,6 @@ export const projects: Project[] = [
         "SVC / PendSV / SysTick exceptions",
         "CMSIS",
       ],
-      // TODO: Add a short reflection on what you learned building this project (e.g. hardest bug, biggest design trade-off).
     },
   },
 

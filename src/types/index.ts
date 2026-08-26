@@ -1,13 +1,8 @@
 export interface ProjectDetail {
-  overview: string;
-  problem: string;
-  architecture: string[];
-  implementation: string[];
-  challenges: string[];
-  keyComponents: { name: string; description: string }[];
+  description: string[];
+  howIBuiltIt: string[];
   results: string[];
   technologies: string[];
-  whatILearned?: string; // omitted (TODO) until supplied — never fabricated
 }
 
 export interface Project {

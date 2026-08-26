@@ -4,6 +4,7 @@ import { Project } from "@/types";
 
 export function FeaturedProjectRow({ project }: { project: Project }) {
   const href = project.detail ? `/projects/${project.slug}` : "/projects";
+  const description = `${project.oneLiner} ${project.problem}`;
 
   return (
     <Link
@@ -32,13 +33,13 @@ export function FeaturedProjectRow({ project }: { project: Project }) {
             {project.period}
           </p>
         )}
-        <div className="relative mt-1.5 h-20 overflow-hidden">
+        <div className="relative mt-1.5 h-24 overflow-hidden">
           <div className="transition-transform duration-300 ease-out group-hover:-translate-y-1/2">
-            <h3 className="flex h-20 items-center text-xl font-semibold text-ink sm:text-2xl">
+            <h3 className="flex h-24 items-center text-xl font-semibold text-ink sm:text-2xl">
               {project.name}
             </h3>
-            <p className="flex h-20 items-center text-[14.5px] leading-snug text-ink-soft line-clamp-3">
-              {project.oneLiner}
+            <p className="flex h-24 items-center text-[14.5px] leading-snug text-ink-soft line-clamp-4">
+              {description}
             </p>
           </div>
         </div>
