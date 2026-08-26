@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { site } from "@/data/site";
 
-const spaceGrotesk = Space_Grotesk({
+const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-display",
   display: "swap",
 });
 
-const plexSans = IBM_Plex_Sans({
+const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-plex-sans",
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -70,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${plexMono.variable}`}>
       <body className="flex min-h-screen flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>

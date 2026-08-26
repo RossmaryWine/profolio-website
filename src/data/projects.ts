@@ -163,7 +163,7 @@ export const projects: Project[] = [
     oneLiner:
       "An interactive C++ traffic-network application resolving shortest paths over a dynamically updating weighted graph.",
     period: "May 2024 – Jun 2024",
-    featured: true,
+    featured: false,
     tags: ["C++", "Algorithms", "Data Structures"],
     problem:
       "Supporting shortest-path queries over a traffic network whose edge weights and topology change at runtime, without recomputing everything from scratch on every update.",
@@ -186,7 +186,7 @@ export const projects: Project[] = [
     oneLiner:
       "A real-time focus-monitoring prototype analyzing camera-derived physiological and behavioral signals.",
     period: "Jan 2026 – Jan 2026",
-    featured: false,
+    featured: true,
     tags: ["Hackathon", "Real-Time Data Pipeline", "Python"],
     problem:
       "Turning live camera-derived physiological and behavioral signals into real-time focus alerts within a hackathon timeframe.",

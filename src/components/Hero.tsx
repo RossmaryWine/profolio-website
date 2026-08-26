@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { site } from "@/data/site";
-import { HeroMark } from "@/components/HeroMark";
+import { HeroGraphic } from "@/components/HeroGraphic";
 
 export function Hero() {
   return (
@@ -9,7 +9,7 @@ export function Hero() {
       <div className="container-content relative grid gap-12 py-16 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-28">
         <div className="animate-fade-up">
           <p className="eyebrow">Firmware / Embedded Systems</p>
-          <h1 className="mt-4 text-4xl font-semibold leading-[1.08] sm:text-5xl lg:text-[3.2rem]">
+          <h1 className="mt-4 text-4xl font-semibold leading-[1.12] sm:text-5xl lg:text-[3.2rem]">
             {site.name}
           </h1>
           <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft">
@@ -19,9 +19,16 @@ export function Hero() {
             {site.program}, {site.school}, {site.term}
           </p>
 
-          <p className="mt-5 max-w-xl font-mono text-[12.5px] tracking-wide text-ink-muted">
-            {site.skillsLine}
-          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {site.heroSkills.map((skill) => (
+              <span
+                key={skill}
+                className="card-corner rounded-sm border border-line-strong bg-base-panel px-3 py-1.5 font-mono text-[12px] uppercase tracking-wide text-ink-soft"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href="/projects" className="btn-primary">
@@ -52,7 +59,7 @@ export function Hero() {
         </div>
 
         <div className="animate-fade-up hidden justify-center [animation-delay:120ms] lg:flex">
-          <HeroMark className="h-auto w-full max-w-[360px] text-ink-faint" />
+          <HeroGraphic className="h-auto w-full max-w-[380px] cursor-crosshair" />
         </div>
       </div>
     </section>

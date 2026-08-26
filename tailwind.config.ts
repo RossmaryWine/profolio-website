@@ -38,8 +38,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
-        body: ["var(--font-plex-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
       },
       backgroundImage: {
@@ -70,10 +70,19 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.35" },
         },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.55" },
+          "50%": { opacity: "1" },
+        },
+        "trace-flow": {
+          to: { "stroke-dashoffset": "-28" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out both",
         blink: "blink 2.4s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 3.2s ease-in-out infinite",
+        "trace-flow": "trace-flow 2.4s linear infinite",
       },
     },
   },

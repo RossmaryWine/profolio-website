@@ -11,9 +11,16 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/michael-zhu-3682a1250/",
   resumeHref: "/resume/michael-zhu-resume.pdf",
   intro:
-    "I'm an Electrical and Computer Engineering student at the University of Waterloo, interested in the layer where hardware and software meet: firmware, real-time systems, and hardware/software integration. Most recently I built a real-time kernel from scratch for the STM32 ARM Cortex-M4, with SVC based syscalls, PendSV context switching, and a memory allocator that never calls malloc().",
-  skillsLine:
-    "C · C++ · ARM Cortex-M4 · ARM Assembly · RTOS & real-time scheduling · FPGA (NIOS II) · Python",
+    "I'm an Electrical and Computer Engineering student at the University of Waterloo, and I keep finding myself drawn back to the layer where hardware and software meet. Firmware, real-time systems, and getting a piece of hardware to do exactly what I tell it to, that's the stuff I enjoy digging into, and I'm always excited to keep learning more of it.",
+  heroSkills: [
+    "C",
+    "C++",
+    "ARM Cortex-M4",
+    "ARM Assembly",
+    "RTOS & Real-Time Scheduling",
+    "FPGA (NIOS II)",
+    "Python",
+  ],
   // TODO: Add a phone number here only if you want it public; omitted intentionally for now.
 };
 
