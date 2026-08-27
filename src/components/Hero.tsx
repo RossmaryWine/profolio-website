@@ -8,11 +8,11 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-schematic-grid bg-grid opacity-60" />
 
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] lg:block"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[82%] lg:block"
         style={{
-          maskImage: "radial-gradient(140% 130% at 100% 0%, black 40%, rgba(0,0,0,0.6) 62%, transparent 92%)",
+          maskImage: "linear-gradient(to bottom left, black 32%, rgba(0,0,0,0.55) 58%, transparent 88%)",
           WebkitMaskImage:
-            "radial-gradient(140% 130% at 100% 0%, black 40%, rgba(0,0,0,0.6) 62%, transparent 92%)",
+            "linear-gradient(to bottom left, black 32%, rgba(0,0,0,0.55) 58%, transparent 88%)",
         }}
       >
         <HeroGraphic className="h-full w-full pointer-events-auto cursor-crosshair" />

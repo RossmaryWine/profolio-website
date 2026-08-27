@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { generateNodeField } from "@/lib/nodeField";
+import { generateTopRightField } from "@/lib/nodeField";
 
 const ACCENT = {
   signal: "#E3963E",
@@ -9,7 +9,7 @@ const ACCENT = {
 };
 
 const VIEW = 500;
-const GLOW_RADIUS = 100;
+const GLOW_RADIUS = 85;
 
 export function HeroGraphic({ className }: { className?: string }) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -17,16 +17,14 @@ export function HeroGraphic({ className }: { className?: string }) {
 
   const { nodes, edges } = useMemo(
     () =>
-      generateNodeField({
-        seed: 1337,
-        count: 46,
-        originX: 500,
-        originY: 0,
-        angleStartDeg: 100,
-        angleEndDeg: 197,
-        maxRadius: 560,
-        radiusPower: 1.7,
-        neighborDist: 105,
+      generateTopRightField({
+        seed: 2024,
+        count: 95,
+        width: VIEW,
+        height: VIEW,
+        xBiasPower: 0.55,
+        yBiasPower: 1.7,
+        neighborDist: 70,
         maxNeighbors: 3,
       }),
     []
@@ -75,7 +73,7 @@ export function HeroGraphic({ className }: { className?: string }) {
 
       {/* two edges carry a constant, slow signal pulse for ambient motion */}
       <g strokeWidth="1.3" strokeLinecap="round" opacity="0.8">
-        {[edges[3], edges[11]].filter(Boolean).map((edge, i) => {
+        {[edges[5], edges[24]].filter(Boolean).map((edge, i) => {
           const a = nodes[edge.from];
           const b = nodes[edge.to];
           return (
@@ -95,7 +93,7 @@ export function HeroGraphic({ className }: { className?: string }) {
 
       {/* a couple of nodes idle-pulse so the graphic feels alive at rest */}
       <g>
-        {[6, 19, 31].map((idx) => {
+        {[3, 18, 40, 62].map((idx) => {
           const n = nodes[idx];
           if (!n) return null;
           return (
@@ -105,7 +103,7 @@ export function HeroGraphic({ className }: { className?: string }) {
               cy={n.y}
               r={n.r + 0.6}
               className="fill-signal animate-pulse-glow"
-              style={{ animationDelay: `${idx * 0.15}s` }}
+              style={{ animationDelay: `${idx * 0.12}s` }}
             />
           );
         })}
@@ -132,7 +130,7 @@ export function HeroGraphic({ className }: { className?: string }) {
               y2={b.y}
               stroke={color}
               strokeOpacity={t}
-              style={{ filter: `drop-shadow(0 0 ${4 + t * 7}px ${color})` }}
+              style={{ filter: `drop-shadow(0 0 ${3 + t * 6}px ${color})` }}
             />
           );
         })}
@@ -147,10 +145,10 @@ export function HeroGraphic({ className }: { className?: string }) {
               key={i}
               cx={n.x}
               cy={n.y}
-              r={n.r + t * 4.5}
+              r={n.r + t * 4}
               fill={color}
               opacity={0.5 + t * 0.5}
-              style={{ filter: `drop-shadow(0 0 ${4 + t * 9}px ${color})` }}
+              style={{ filter: `drop-shadow(0 0 ${3 + t * 8}px ${color})` }}
             />
           );
         })}

@@ -8,7 +8,7 @@ export const projects: Project[] = [
     slug: "rtos-kernel",
     name: "Real-Time Executive (RTOS Kernel)",
     oneLiner:
-      "A from-scratch real-time kernel for STM32 (ARM Cortex-M4): SVC-based syscalls, PendSV context switching, and a malloc-free memory allocator.",
+      "A real-time kernel built from scratch for the STM32 ARM Cortex-M4: SVC syscalls, PendSV context switching, and a malloc-free allocator.",
     period: "May 2026 – Aug 2026",
     featured: true,
     tags: ["Embedded", "RTOS", "ARM Cortex-M4", "C"],
@@ -71,7 +71,7 @@ export const projects: Project[] = [
     slug: "interrupt-driven-fpga-system",
     name: "Interrupt-Driven FPGA Stimulus-Response System",
     oneLiner:
-      "A real-time polling and interrupt system on an Altera FPGA (NIOS II / Avalon bus), benchmarked head-to-head against a polling design.",
+      "An interrupt-driven vs. polling benchmark on an Altera FPGA (NIOS II / Avalon bus).",
     period: "Sept 2025 – Oct 2025",
     featured: true,
     tags: ["FPGA", "Interrupts", "Hardware/Software Integration"],
@@ -83,6 +83,11 @@ export const projects: Project[] = [
       "Built a real-time polling and interrupt system on an Altera FPGA using NIOS II and the Avalon bus.",
       "Benchmarked polling vs. interrupt designs, achieving a >40% CPU efficiency gain and sub-millisecond latency.",
     ],
+    image: {
+      src: "/images/projects/de2-fpga-board.jpeg",
+      alt: "Altera DE2 development board with Cyclone II FPGA used for the stimulus-response system",
+      caption: "The Altera DE2 board (Cyclone II FPGA) used for the benchmark.",
+    },
     github: undefined, // TODO: Add GitHub/repo link
     detail: undefined,
   },
@@ -90,7 +95,7 @@ export const projects: Project[] = [
     slug: "ece298-reservoir-adapter",
     name: "Reservoir System Adapter",
     oneLiner:
-      "An STM32 interface PCB coordinating motor drivers, an ultrasonic sensor, an RPM sensor, a servo, and an RGB indicator for a reservoir-system testbed.",
+      "An STM32 interface PCB for a reservoir-system testbed: motor drivers, ultrasonic and RPM sensors, a servo, and an RGB indicator.",
     period: undefined, // TODO: Add project dates
     featured: true,
     tags: ["Hardware", "PCB Design", "Sensors & Actuators"],
@@ -123,7 +128,7 @@ export const projects: Project[] = [
     slug: "graph-route-optimization",
     name: "Graph-Based Route Optimization Program",
     oneLiner:
-      "An interactive C++ traffic-network application resolving shortest paths over a dynamically updating weighted graph.",
+      "A C++ traffic-network app resolving shortest paths over a dynamically updating graph.",
     period: "May 2024 – Jun 2024",
     featured: false,
     tags: ["C++", "Algorithms", "Data Structures"],
@@ -146,7 +151,7 @@ export const projects: Project[] = [
     slug: "ottohack8-focus-monitor",
     name: "Ottohack8 Focus Monitor",
     oneLiner:
-      "A real-time focus-monitoring prototype analyzing camera-derived physiological and behavioral signals.",
+      "A real-time prototype monitoring focus from camera-derived physiological and behavioral signals.",
     period: "Jan 2026 – Jan 2026",
     featured: true,
     tags: ["Hackathon", "Real-Time Data Pipeline", "Python"],
@@ -169,7 +174,7 @@ export const projects: Project[] = [
     slug: "quant-trading-algorithm",
     name: "Quantitative Trading Algorithm",
     oneLiner:
-      "A backtested ETF strategy combining trend-following and mean-reversion signals with volatility-weighted allocation.",
+      "An ETF strategy backtested with trend-following, mean-reversion, and volatility-weighted allocation.",
     period: "Jan 2026 – present",
     featured: false,
     tags: ["Python", "Quantitative Finance", "Data Pipeline"],

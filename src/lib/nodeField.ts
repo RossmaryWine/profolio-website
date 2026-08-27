@@ -30,6 +30,36 @@ function mulberry32(seed: number) {
   };
 }
 
+function buildProximityEdges(
+  nodes: FieldNode[],
+  neighborDist: number,
+  maxNeighbors: number
+): FieldEdge[] {
+  const edges: FieldEdge[] = [];
+  const seen = new Set<string>();
+  for (let i = 0; i < nodes.length; i++) {
+    const candidates: { j: number; d: number }[] = [];
+    for (let j = 0; j < nodes.length; j++) {
+      if (i === j) continue;
+      const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+      if (d <= neighborDist) candidates.push({ j, d });
+    }
+    candidates.sort((a, b) => a.d - b.d);
+    for (const { j } of candidates.slice(0, maxNeighbors)) {
+      const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        edges.push({ from: i, to: j });
+      }
+    }
+  }
+  return edges;
+}
+
+// Radial distribution: points scattered within an angular wedge from a
+// single origin, density falling off with radius. Produces a soft, roughly
+// circular cluster — good for a centered ambient watermark, but reads as a
+// single "bloom" if used for a corner-anchored graphic.
 export function generateNodeField({
   seed,
   count,
@@ -69,24 +99,47 @@ export function generateNodeField({
     });
   }
 
-  const edges: FieldEdge[] = [];
-  const seen = new Set<string>();
-  for (let i = 0; i < nodes.length; i++) {
-    const candidates: { j: number; d: number }[] = [];
-    for (let j = 0; j < nodes.length; j++) {
-      if (i === j) continue;
-      const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
-      if (d <= neighborDist) candidates.push({ j, d });
-    }
-    candidates.sort((a, b) => a.d - b.d);
-    for (const { j } of candidates.slice(0, maxNeighbors)) {
-      const key = i < j ? `${i}-${j}` : `${j}-${i}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        edges.push({ from: i, to: j });
-      }
-    }
+  return { nodes, edges: buildProximityEdges(nodes, neighborDist, maxNeighbors) };
+}
+
+// Independent-axis distribution: x is skewed toward the right edge, y is
+// skewed toward the top edge, sampled independently of each other (not by
+// distance from a single point). That avoids a circular "bloom" — density
+// fades smoothly across the width and the height instead of radiating out
+// from one spot, so the mesh reads as a field of nodes spreading across and
+// down from the top-right corner rather than a growth sprouting from it.
+export function generateTopRightField({
+  seed,
+  count,
+  width = 500,
+  height = 500,
+  xBiasPower = 0.55,
+  yBiasPower = 1.7,
+  neighborDist = 80,
+  maxNeighbors = 3,
+}: {
+  seed: number;
+  count: number;
+  width?: number;
+  height?: number;
+  xBiasPower?: number;
+  yBiasPower?: number;
+  neighborDist?: number;
+  maxNeighbors?: number;
+}): NodeField {
+  const rand = mulberry32(seed);
+
+  const nodes: FieldNode[] = [];
+  for (let i = 0; i < count; i++) {
+    const x = width * Math.pow(rand(), xBiasPower);
+    const y = height * Math.pow(rand(), yBiasPower);
+    nodes.push({
+      x,
+      y,
+      r: 1.1 + rand() * 1.3,
+      accent: rand() > 0.5 ? "signal" : "teal",
+    });
   }
 
-  return { nodes, edges };
+  return { nodes, edges: buildProximityEdges(nodes, neighborDist, maxNeighbors) };
 }
