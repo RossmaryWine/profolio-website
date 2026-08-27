@@ -108,6 +108,12 @@ export function generateNodeField({
 // fades smoothly across the width and the height instead of radiating out
 // from one spot, so the mesh reads as a field of nodes spreading across and
 // down from the top-right corner rather than a growth sprouting from it.
+//
+// Plain independent random sampling still looks clumpy (some spots with
+// overlapping dots, others with visible gaps) because that's what random
+// distributions actually look like. Each candidate point is rejected and
+// resampled if it lands too close to an already-placed node, which spaces
+// the mesh out evenly while keeping the top-right density gradient.
 export function generateTopRightField({
   seed,
   count,
@@ -115,7 +121,9 @@ export function generateTopRightField({
   height = 500,
   xBiasPower = 0.55,
   yBiasPower = 1.7,
-  neighborDist = 80,
+  minDist = 26,
+  maxAttempts = 40,
+  neighborDist = 85,
   maxNeighbors = 3,
 }: {
   seed: number;
@@ -124,22 +132,48 @@ export function generateTopRightField({
   height?: number;
   xBiasPower?: number;
   yBiasPower?: number;
+  minDist?: number;
+  maxAttempts?: number;
   neighborDist?: number;
   maxNeighbors?: number;
 }): NodeField {
   const rand = mulberry32(seed);
+  const points: { x: number; y: number }[] = [];
 
-  const nodes: FieldNode[] = [];
   for (let i = 0; i < count; i++) {
-    const x = width * Math.pow(rand(), xBiasPower);
-    const y = height * Math.pow(rand(), yBiasPower);
-    nodes.push({
-      x,
-      y,
-      r: 1.1 + rand() * 1.3,
-      accent: rand() > 0.5 ? "signal" : "teal",
-    });
+    let placed: { x: number; y: number } | null = null;
+    let fallback: { x: number; y: number } | null = null;
+    let fallbackNearest = -1;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const x = width * Math.pow(rand(), xBiasPower);
+      const y = height * Math.pow(rand(), yBiasPower);
+
+      let nearest = Infinity;
+      for (const p of points) {
+        const d = Math.hypot(p.x - x, p.y - y);
+        if (d < nearest) nearest = d;
+      }
+
+      if (points.length === 0 || nearest >= minDist) {
+        placed = { x, y };
+        break;
+      }
+      if (nearest > fallbackNearest) {
+        fallbackNearest = nearest;
+        fallback = { x, y };
+      }
+    }
+
+    points.push(placed ?? fallback ?? { x: width * rand(), y: height * rand() });
   }
+
+  const nodes: FieldNode[] = points.map((p) => ({
+    x: p.x,
+    y: p.y,
+    r: 1.1 + rand() * 1.3,
+    accent: rand() > 0.5 ? "signal" : "teal",
+  }));
 
   return { nodes, edges: buildProximityEdges(nodes, neighborDist, maxNeighbors) };
 }

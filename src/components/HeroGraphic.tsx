@@ -24,7 +24,8 @@ export function HeroGraphic({ className }: { className?: string }) {
         height: VIEW,
         xBiasPower: 0.55,
         yBiasPower: 1.7,
-        neighborDist: 70,
+        minDist: 27,
+        neighborDist: 78,
         maxNeighbors: 3,
       }),
     []
@@ -50,6 +51,7 @@ export function HeroGraphic({ className }: { className?: string }) {
     <svg
       ref={svgRef}
       viewBox={`0 0 ${VIEW} ${VIEW}`}
+      preserveAspectRatio="none"
       fill="none"
       role="presentation"
       aria-hidden="true"
