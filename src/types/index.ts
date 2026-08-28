@@ -13,7 +13,6 @@ export interface Project {
   featured: boolean;
   tags: string[];
   problem: string;
-  contribution?: string; // undefined -> TODO in data file
   technologies: string[];
   accomplishments: string[];
   image?: {

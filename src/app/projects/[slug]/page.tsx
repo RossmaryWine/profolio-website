@@ -115,17 +115,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                 ))}
               </div>
             </div>
-
-            {project.contribution && (
-              <div className="mt-5 rounded-md border border-line bg-base-panel p-6">
-                <h3 className="font-mono text-[12px] uppercase tracking-wide text-ink-muted">
-                  My Contribution
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                  {project.contribution}
-                </p>
-              </div>
-            )}
           </aside>
         </div>
 

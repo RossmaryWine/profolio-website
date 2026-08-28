@@ -14,8 +14,6 @@ export const projects: Project[] = [
     tags: ["Embedded", "RTOS", "ARM Cortex-M4", "C"],
     problem:
       "Real-time embedded applications need deterministic task scheduling and memory management, without the overhead, non-determinism, or heap fragmentation risk of pulling in a general-purpose OS or standard malloc().",
-    contribution:
-      "Designed and implemented the kernel end-to-end: task/scheduler subsystem, SVC syscall layer, PendSV context-switch assembly, and the dynamic memory allocator.",
     technologies: [
       "C",
       "ARM Cortex-M4 (STM32)",
@@ -77,8 +75,6 @@ export const projects: Project[] = [
     tags: ["FPGA", "Audio", "Embedded", "Interrupts"],
     problem:
       "Streaming WAV audio from an SD card into a hardware codec in real time on a soft-core CPU, with debounced pushbutton transport control and switch-selected playback speed, and no RTOS underneath any of it.",
-    contribution:
-      "Built the player's software stack end-to-end: FatFs/SD file access, the audio-FIFO streaming loop, the interrupt-driven button debouncer, and the LCD status readout.",
     technologies: [
       "NIOS II (soft-core CPU)",
       "Altera/Intel MAX 10 FPGA",
@@ -135,7 +131,6 @@ export const projects: Project[] = [
     tags: ["Hardware", "PCB Design", "Firmware", "Sensors & Actuators"],
     problem:
       "Coordinating pump speed, valve routing, and status indicators against live sensor feedback, on a serial-configured hourly schedule, from bare-metal STM32.",
-    contribution: undefined, // TODO: Clarify individual vs. team contribution for this project (small team project, my share of the total system was limited).
     technologies: [
       "STM32 (HAL)",
       "PCB / schematic capture (Proteus)",
@@ -196,7 +191,6 @@ export const projects: Project[] = [
     tags: ["C++", "Algorithms", "Data Structures"],
     problem:
       "Supporting shortest-path queries over a traffic network whose edge weights and topology change at runtime, without recomputing everything from scratch on every update.",
-    contribution: undefined, // TODO: Clarify individual vs. team contribution for this project.
     technologies: ["C++", "Hash maps", "Priority queues", "Dijkstra's algorithm"],
     accomplishments: [
       "Built an interactive C++ traffic-network application using nested hash maps and priority queues to support dynamic graph updates and path queries.",
@@ -213,17 +207,25 @@ export const projects: Project[] = [
     slug: "ottohack8-focus-monitor",
     name: "Ottohack8 Focus Monitor",
     oneLiner:
-      "A real-time prototype monitoring focus from camera-derived physiological and behavioral signals.",
+      "A multi-agent focus monitor on Solace Agent Mesh: webcam heart-rate and phone-camera vitals feed LLM agents that judge distraction and trigger a full-screen alert.",
     period: "Jan 2026 – Jan 2026",
     featured: true,
-    tags: ["Hackathon", "Real-Time Data Pipeline", "Python"],
+    tags: ["Hackathon", "Multi-Agent LLM", "Computer Vision", "Python"],
     problem:
-      "Turning live camera-derived physiological and behavioral signals into real-time focus alerts within a hackathon timeframe.",
-    contribution: undefined,
-    technologies: ["Python", "UDP networking", "JSON", "Solace Agent Mesh"],
+      "Turning noisy, real-time biometric signals (heart rate, breathing, blinking) into a single distraction verdict, then acting on it immediately, within a hackathon weekend.",
+    technologies: [
+      "Python",
+      "Solace Agent Mesh",
+      "OpenCV (Eulerian video magnification)",
+      "Presage SmartSpectra SDK (rPPG)",
+      "UDP networking",
+      "Streamlit",
+      "Tkinter",
+    ],
     accomplishments: [
-      "Built a real-time focus-monitoring prototype using Solace Agent Mesh to analyze camera-derived physiological and behavioral data and trigger focus alerts.",
-      "Developed a Python UDP pipeline to parse and normalize live sensor data (heart rate, breathing, blink, and speech events) into JSON for agent processing.",
+      "Built a multi-agent focus-detection pipeline on Solace Agent Mesh: dedicated Heartrate and BreathingRate LLM agents judge distraction from the last 10 sensor readings, coordinated by an orchestrator agent.",
+      "Wired two live data sources into the pipeline: a webcam heart-rate monitor (OpenCV Eulerian video magnification) posting to a streaming API, and a phone-camera rPPG feed (Presage SmartSpectra: pulse, breathing, blink, talk events) over UDP.",
+      "Built a fullscreen Tkinter \"focus lost\" overlay, spawned automatically on a distraction verdict, that locks out interaction behind a countdown before the user can acknowledge and dismiss it.",
     ],
     image: {
       src: "/images/projects/ottohack8-integration-diagram.jpeg",
@@ -231,6 +233,34 @@ export const projects: Project[] = [
       caption: "Solace Agent Mesh routing signals between sources and integrations.",
     },
     github: undefined, // TODO: Add GitHub/repo link
+    detail: {
+      description: [
+        "A hackathon prototype that judges whether someone is still focused from live biometric signals and forces a break when they're not, built around a Solace Agent Mesh multi-agent pipeline.",
+        "Needed to turn noisy real-time signals — heart rate, breathing, blinking, talking — into one distraction verdict and act on it immediately, in a single hackathon weekend.",
+        "Two data paths feed the same mesh: an OpenCV webcam script for heart rate, and a phone running Presage's SmartSpectra SDK for pulse, breathing, and face-behavior events over UDP.",
+      ],
+      howIBuiltIt: [
+        "Adapted an open-source Eulerian-video-magnification webcam heart-rate script to batch BPM readings and POST them as JSON-RPC messages to a Solace Agent Mesh orchestrator, reading the analysis back off an SSE subscription.",
+        "Configured dedicated Heartrate and BreathingRate SAM agents: each is an LLM prompted to read the last 10 readings and answer with a leading YES/NO on distraction plus a short explanation.",
+        "Normalized SmartSpectra's phone-camera output (pulse and breathing rate, blink and talk events, per-signal stability flags) in a small UDP listener, keyed per session so multiple streams don't collide.",
+        "On a YES verdict, spawned a fullscreen Tkinter alert as a separate process — scanline and glitch animation, a countdown-locked acknowledgment button — so it has to be consciously dismissed rather than ignored like a toast notification.",
+        "Built a Streamlit dashboard that polls a shared JSON file for the latest verdict and BPM stats and shows a live focused/distracted status.",
+      ],
+      results: [
+        "Working end-to-end on the webcam path: heart rate in, an agent verdict out, a fullscreen alert fired automatically on distraction, live status on the Streamlit dashboard.",
+        "Still rough at the edges, as expected for a hackathon build: the webcam path's YES/NO-in-chat convention and the tool-based DISCARD-verdict path grew separately and were never fully reconciled, and the SmartSpectra phone path needs a manual pipe into the mesh rather than posting directly like the webcam path does.",
+        "Runs as 3-4 separate processes started by hand (SAM, the monitor script, Streamlit, optionally the artifact saver) — a working demo, not yet a single packaged app.",
+      ],
+      technologies: [
+        "Python",
+        "Solace Agent Mesh",
+        "OpenCV (Eulerian video magnification)",
+        "Presage SmartSpectra SDK (rPPG)",
+        "UDP networking",
+        "Streamlit",
+        "Tkinter",
+      ],
+    },
   },
   {
     slug: "quant-trading-algorithm",
@@ -242,7 +272,6 @@ export const projects: Project[] = [
     tags: ["Python", "Quantitative Finance", "Data Pipeline"],
     problem:
       "Combining complementary trading signals (trend-following and mean-reversion) with volatility-aware position sizing, then validating the approach against a benchmark on historical data.",
-    contribution: undefined,
     technologies: ["Python", "NumPy", "Pandas", "yfinance", "Bloomberg data"],
     accomplishments: [
       "Developing and backtesting an ETF trading strategy combining trend-following and mean-reversion models with volatility-weighted allocation; backtested performance shows up to 70% higher cumulative returns than SPY.",
