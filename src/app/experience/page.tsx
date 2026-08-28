@@ -15,9 +15,6 @@ export default function ExperiencePage() {
         <div className="container-content">
           <p className="eyebrow">Experience</p>
           <h1 className="mt-2 max-w-2xl text-3xl font-semibold sm:text-4xl">Work experience</h1>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
-            Reverse-chronological. Firmware-focused roles are flagged.
-          </p>
 
           <div className="mt-12 flex flex-col gap-6">
             {experience.map((exp) => (

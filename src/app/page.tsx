@@ -17,7 +17,7 @@ export default function HomePage() {
             <SectionHeader
               eyebrow="Featured Work"
               title="Firmware & systems projects"
-              description="From-scratch RTOS kernel work, FPGA interrupt systems, and hardware interface design: the strongest of what I've built."
+              description="RTOS kernel work built from scratch, FPGA interrupt systems, and hardware interface design: the strongest of what I've built."
               action={{ label: "View all projects", href: "/projects" }}
             />
             <div className="mt-12 flex flex-col divide-y divide-line-soft border-y border-line">

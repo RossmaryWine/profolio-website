@@ -19,7 +19,7 @@ export const site = {
     "C++",
     "ARM Cortex-M4",
     "ARM Assembly",
-    "RTOS & Real-Time Scheduling",
+    "RTOS & Real Time Scheduling",
     "FPGA (NIOS II)",
     "Python",
   ],
@@ -27,10 +27,10 @@ export const site = {
 
 export const nav = [
   { label: "Home", href: "/" },
-  { label: "Experience", href: "/experience" },
-  { label: "Projects", href: "/projects" },
-  { label: "Skills", href: "/skills" },
   { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Experience", href: "/experience" },
+  { label: "Skills", href: "/skills" },
   { label: "Résumé", href: site.resumeHref, external: true },
   { label: "Contact", href: "/#contact" },
 ];

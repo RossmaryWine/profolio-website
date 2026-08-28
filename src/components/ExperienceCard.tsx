@@ -8,12 +8,6 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
           {exp.dateRange}
         </p>
         <p className="mt-1 text-sm text-ink-faint">{exp.location}</p>
-        {exp.emphasize && (
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-sm border border-signal-dim px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-signal">
-            <span className="h-1.5 w-1.5 rounded-full bg-signal" />
-            Firmware role
-          </span>
-        )}
       </div>
 
       <div>

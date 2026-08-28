@@ -5,7 +5,7 @@ import { PageBackdrop } from "@/components/PageBackdrop";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Short technical bio: firmware, embedded systems, and real-time software.",
+  description: "Short technical bio: firmware, embedded systems, and real time software.",
 };
 
 export default function AboutPage() {
@@ -20,15 +20,15 @@ export default function AboutPage() {
             <p>
               I&apos;m an Electrical and Computer Engineering student at {site.school}
               {site.term ? ` (${site.term})` : ""}, most interested in the layer where hardware and
-              software meet: firmware, embedded systems, low-level software, real-time systems, and
+              software meet: firmware, embedded systems, low level software, real time systems, and
               hardware/software integration.
             </p>
             <p>
-              Most recently, that&apos;s meant building a real-time executive from scratch for the
-              STM32 ARM Cortex-M4, with an SVC-based syscall layer, PendSV context switching, an
-              Earliest-Deadline-First scheduler, and a first-fit memory allocator that never calls
+              Most recently, that&apos;s meant building a real time executive from scratch for the
+              STM32 ARM Cortex-M4, with an SVC based syscall layer, PendSV context switching, an
+              Earliest Deadline First scheduler, and a first fit memory allocator that never calls
               malloc(). I&apos;ve also worked at the hardware/software boundary on an Altera FPGA
-              (NIOS II, interrupt-driven I/O) and designed interface hardware in coursework. See{" "}
+              (NIOS II, interrupt driven I/O) and designed interface hardware in coursework. See{" "}
               <Link href="/projects/rtos-kernel" className="text-signal hover:text-signal-soft">
                 the RTOS kernel
               </Link>{" "}
@@ -39,8 +39,8 @@ export default function AboutPage() {
               for specifics.
             </p>
             <p>
-              Outside of embedded work, I&apos;ve built data-engineering pipelines and automation
-              tooling professionally (Statistics Canada, ECCC) and firmware-adjacent testing/CI
+              Outside of embedded work, I&apos;ve built data engineering pipelines and automation
+              tooling professionally (Statistics Canada, ECCC) and firmware adjacent testing/CI
               infrastructure at Ford. See{" "}
               <Link href="/experience" className="text-signal hover:text-signal-soft">
                 Experience

@@ -10,9 +10,9 @@ export const skillGroups: SkillGroupData[] = [
     skills: [
       "STM32 (ARM Cortex-M4)",
       "SVC / PendSV context switching",
-      "SysTick-driven scheduling",
+      "SysTick driven scheduling",
       "Preemptive EDF scheduling",
-      "Interrupt-driven I/O",
+      "Interrupt driven I/O",
       "CMSIS",
       "Embedded unit testing (Unity, CMock)",
     ],
@@ -23,13 +23,13 @@ export const skillGroups: SkillGroupData[] = [
       "ARM Cortex-M4 architecture",
       "Altera FPGA (NIOS II, Avalon bus)",
       "PCB / schematic capture (Proteus)",
-      "Memory-mapped I/O",
+      "Memory mapped I/O",
     ],
   },
   {
     category: "Systems Programming",
     skills: [
-      "Dynamic memory allocation & free-list management",
+      "Dynamic memory allocation & free list management",
       "Concurrency",
       "pthreads",
       "Task scheduling",

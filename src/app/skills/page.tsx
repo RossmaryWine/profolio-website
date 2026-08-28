@@ -17,9 +17,6 @@ export default function SkillsPage() {
           <h1 className="mt-2 max-w-2xl text-3xl font-semibold sm:text-4xl">
             Languages &amp; technologies
           </h1>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
-            Organized by how I actually use them, grouped around firmware and systems work first.
-          </p>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {skillGroups.map((group) => (

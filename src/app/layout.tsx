@@ -27,7 +27,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const description =
-  "Portfolio of Michael Zhu, an Electrical & Computer Engineering student at the University of Waterloo focused on firmware, embedded systems, and real-time software.";
+  "Portfolio of Michael Zhu, an Electrical & Computer Engineering student at the University of Waterloo focused on firmware, embedded systems, and real time software.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://example.com"), // TODO: Replace with your deployed domain

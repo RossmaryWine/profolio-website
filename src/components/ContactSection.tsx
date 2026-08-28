@@ -7,8 +7,8 @@ export function ContactSection() {
         <p className="eyebrow">Contact</p>
         <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Let&apos;s build something.</h2>
         <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
-          I&apos;m open to firmware, embedded systems, and low-level software roles. Reach out any
-          of the ways below.
+          I&apos;m open to firmware, embedded systems, and low level software roles. Please reach
+          out to any of the options below if you are interested!
         </p>
 
         <div className="mt-10 flex flex-col divide-y divide-line-soft rounded-md border border-line bg-base-panel">

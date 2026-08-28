@@ -33,7 +33,6 @@ export interface Experience {
   description: string;
   accomplishments: string[];
   technologies: string[];
-  emphasize?: boolean;
 }
 
 export interface SkillGroupData {

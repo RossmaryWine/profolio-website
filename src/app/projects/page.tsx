@@ -8,7 +8,7 @@ import { PageBackdrop } from "@/components/PageBackdrop";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Firmware, embedded systems, and hardware/software integration projects, including a from-scratch RTOS kernel for ARM Cortex-M4.",
+    "Firmware, embedded systems, and hardware/software integration projects, including an RTOS kernel built from scratch for ARM Cortex-M4.",
 };
 
 export default function ProjectsPage() {
@@ -16,18 +16,7 @@ export default function ProjectsPage() {
     <PageBackdrop>
       <div className="py-16 sm:py-24">
         <div className="container-content">
-          <p className="eyebrow">Projects</p>
-          <h1 className="mt-2 max-w-2xl text-3xl font-semibold sm:text-4xl">
-            Systems I&apos;ve designed and built
-          </h1>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
-            Strongest firmware and hardware/software integration work first. Every project below
-            links back to what problem it solved and what I actually built.
-          </p>
-        </div>
-
-        <div className="container-content mt-14">
-          <SectionHeader eyebrow="Featured" title="Featured projects" />
+          <SectionHeader eyebrow="Project" title="Featured projects" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} />
