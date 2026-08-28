@@ -89,7 +89,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
         <div className="container-content mt-16 grid gap-14 lg:grid-cols-[1fr_280px]">
           <div className="flex flex-col gap-14">
-            <Section title="Description">
+            <Section title="Summary">
               <BulletList items={detail.description} />
             </Section>
 
@@ -97,7 +97,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               <BulletList items={detail.howIBuiltIt} />
             </Section>
 
-            <Section title="Results">
+            <Section title="Result">
               <BulletList items={detail.results} />
             </Section>
           </div>

@@ -77,12 +77,27 @@ const config: Config = {
         "trace-flow": {
           to: { "stroke-dashoffset": "-28" },
         },
+        "drift-a": {
+          "0%, 100%": { transform: "translate(0px, 0px) scale(1)", opacity: "0.55" },
+          "50%": { transform: "translate(7px, -9px) scale(1.4)", opacity: "1" },
+        },
+        "drift-b": {
+          "0%, 100%": { transform: "translate(0px, 0px) scale(1)", opacity: "0.5" },
+          "50%": { transform: "translate(-8px, 6px) scale(1.3)", opacity: "0.95" },
+        },
+        "drift-c": {
+          "0%, 100%": { transform: "translate(0px, 0px) scale(1)", opacity: "0.6" },
+          "50%": { transform: "translate(6px, 8px) scale(1.25)", opacity: "1" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out both",
         blink: "blink 2.4s ease-in-out infinite",
         "pulse-glow": "pulse-glow 3.2s ease-in-out infinite",
         "trace-flow": "trace-flow 2.4s linear infinite",
+        "drift-a": "drift-a 6s ease-in-out infinite",
+        "drift-b": "drift-b 7.5s ease-in-out infinite",
+        "drift-c": "drift-c 5.2s ease-in-out infinite",
       },
     },
   },

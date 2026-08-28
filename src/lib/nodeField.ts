@@ -30,8 +30,8 @@ function mulberry32(seed: number) {
   };
 }
 
-function buildProximityEdges(
-  nodes: FieldNode[],
+export function buildProximityEdges(
+  nodes: { x: number; y: number }[],
   neighborDist: number,
   maxNeighbors: number
 ): FieldEdge[] {
@@ -102,52 +102,64 @@ export function generateNodeField({
   return { nodes, edges: buildProximityEdges(nodes, neighborDist, maxNeighbors) };
 }
 
-// Independent-axis distribution: x is skewed toward the right edge, y is
-// skewed toward the top edge, sampled independently of each other (not by
-// distance from a single point). That avoids a circular "bloom" — density
-// fades smoothly across the width and the height instead of radiating out
-// from one spot, so the mesh reads as a field of nodes spreading across and
-// down from the top-right corner rather than a growth sprouting from it.
+export interface FieldPoint {
+  x: number;
+  y: number;
+}
+
+// Independent-axis distribution: x is skewed toward one edge, y toward
+// another, sampled independently of each other (not by distance from a
+// single point). That avoids a circular "bloom" — density fades smoothly
+// across the width and height instead of radiating out from one spot, so
+// the field reads as points spreading across and away from a corner rather
+// than a growth sprouting from it.
 //
 // Plain independent random sampling still looks clumpy (some spots with
-// overlapping dots, others with visible gaps) because that's what random
+// overlapping points, others with visible gaps) because that's what random
 // distributions actually look like. Each candidate point is rejected and
-// resampled if it lands too close to an already-placed node, which spaces
-// the mesh out evenly while keeping the top-right density gradient.
-export function generateTopRightField({
+// resampled if it lands too close to an already-placed point, which spaces
+// the field out evenly while keeping the density gradient toward the corner.
+export function generateCornerPoints({
   seed,
   count,
   width = 500,
   height = 500,
-  xBiasPower = 0.55,
-  yBiasPower = 1.7,
+  corner = "bottom-right",
+  xBiasPower = 1.7,
+  yBiasPower = 1.4,
   minDist = 26,
   maxAttempts = 40,
-  neighborDist = 85,
-  maxNeighbors = 3,
 }: {
   seed: number;
   count: number;
   width?: number;
   height?: number;
+  corner?: "top-right" | "bottom-right" | "top-left" | "bottom-left";
+  // Both powers use the same convention regardless of which corner is
+  // picked: >1 concentrates points more tightly toward that corner, <1
+  // spreads them out further away from it.
   xBiasPower?: number;
   yBiasPower?: number;
   minDist?: number;
   maxAttempts?: number;
-  neighborDist?: number;
-  maxNeighbors?: number;
-}): NodeField {
+}): FieldPoint[] {
   const rand = mulberry32(seed);
-  const points: { x: number; y: number }[] = [];
+  const fromRight = corner === "top-right" || corner === "bottom-right";
+  const fromBottom = corner === "bottom-right" || corner === "bottom-left";
+  const points: FieldPoint[] = [];
 
   for (let i = 0; i < count; i++) {
-    let placed: { x: number; y: number } | null = null;
-    let fallback: { x: number; y: number } | null = null;
+    let placed: FieldPoint | null = null;
+    let fallback: FieldPoint | null = null;
     let fallbackNearest = -1;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const x = width * Math.pow(rand(), xBiasPower);
-      const y = height * Math.pow(rand(), yBiasPower);
+      // Concentrated near 0 when the power is >1; flipped to concentrate
+      // near the biased edge instead of always near 0.
+      const xNear0 = Math.pow(rand(), xBiasPower);
+      const yNear0 = Math.pow(rand(), yBiasPower);
+      const x = width * (fromRight ? 1 - xNear0 : xNear0);
+      const y = height * (fromBottom ? 1 - yNear0 : yNear0);
 
       let nearest = Infinity;
       for (const p of points) {
@@ -168,12 +180,5 @@ export function generateTopRightField({
     points.push(placed ?? fallback ?? { x: width * rand(), y: height * rand() });
   }
 
-  const nodes: FieldNode[] = points.map((p) => ({
-    x: p.x,
-    y: p.y,
-    r: 1.1 + rand() * 1.3,
-    accent: rand() > 0.5 ? "signal" : "teal",
-  }));
-
-  return { nodes, edges: buildProximityEdges(nodes, neighborDist, maxNeighbors) };
+  return points;
 }

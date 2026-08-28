@@ -1,22 +1,10 @@
 import Link from "next/link";
 import { site } from "@/data/site";
-import { HeroGraphic } from "@/components/HeroGraphic";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line">
       <div className="pointer-events-none absolute inset-0 bg-schematic-grid bg-grid opacity-60" />
-
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[82%] lg:block"
-        style={{
-          maskImage: "linear-gradient(to bottom left, black 32%, rgba(0,0,0,0.55) 58%, transparent 88%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom left, black 32%, rgba(0,0,0,0.55) 58%, transparent 88%)",
-        }}
-      >
-        <HeroGraphic className="h-full w-full pointer-events-auto cursor-crosshair" />
-      </div>
 
       <div className="container-content relative py-16 sm:py-24 lg:py-28">
         <div className="animate-fade-up relative z-10 max-w-xl">

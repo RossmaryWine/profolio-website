@@ -68,53 +68,88 @@ export const projects: Project[] = [
   // FEATURED — no dedicated detail page
   // ---------------------------------------------------------------------
   {
-    slug: "interrupt-driven-fpga-system",
-    name: "Interrupt-Driven FPGA Stimulus-Response System",
+    slug: "fpga-audio-player",
+    name: "NIOS II WAV Audio Player",
     oneLiner:
-      "An interrupt-driven vs. polling benchmark on an Altera FPGA (NIOS II / Avalon bus).",
+      "A fully functional WAV audio player on a NIOS II soft core: SD-card playback through FatFs, pushbutton transport controls, and a live LCD track readout.",
     period: "Sept 2025 – Oct 2025",
     featured: true,
-    tags: ["FPGA", "Interrupts", "Hardware/Software Integration"],
+    tags: ["FPGA", "Audio", "Embedded", "Interrupts"],
     problem:
-      "Comparing two ways of handling time-critical stimulus/response events on a soft-core FPGA system, continuous polling versus interrupt-driven handling, to quantify the real-world CPU and latency cost of each approach.",
-    contribution: undefined, // TODO: Clarify individual vs. team contribution for this project.
-    technologies: ["NIOS II", "Altera FPGA", "Avalon Bus"],
+      "Streaming WAV audio from an SD card into a hardware codec in real time on a soft-core CPU, with debounced pushbutton transport control and switch-selected playback speed, and no RTOS underneath any of it.",
+    contribution:
+      "Built the player's software stack end-to-end: FatFs/SD file access, the audio-FIFO streaming loop, the interrupt-driven button debouncer, and the LCD status readout.",
+    technologies: [
+      "NIOS II (soft-core CPU)",
+      "Altera/Intel MAX 10 FPGA",
+      "Avalon audio core",
+      "FatFs (SD card, SPI)",
+      "GPIO interrupts (debounce)",
+      "Character LCD (HAL device)",
+    ],
     accomplishments: [
-      "Built a real-time polling and interrupt system on an Altera FPGA using NIOS II and the Avalon bus.",
-      "Benchmarked polling vs. interrupt designs, achieving a >40% CPU efficiency gain and sub-millisecond latency.",
+      "Built a WAV audio player on a NIOS II soft core: FatFs reads .WAV files off an SD card and streams them into the Avalon audio core's FIFOs in real time.",
+      "Added pushbutton transport control (play/pause, next, previous, rewind) off a timer-interrupt debounce layer, plus switch-selected normal/half/double-speed and mono playback.",
+      "Drove a live LCD readout of the current track name and playback state through the NIOS II HAL's character-device driver.",
     ],
     image: {
       src: "/images/projects/de2-fpga-board.jpeg",
-      alt: "Altera DE2 development board with Cyclone II FPGA used for the stimulus-response system",
-      caption: "The Altera DE2 board (Cyclone II FPGA) used for the benchmark.",
+      alt: "Altera FPGA development board with audio, SD card, and LCD peripherals",
+      caption: "An Altera/NIOS II FPGA platform — the same class of hardware the audio player runs on.",
     },
     github: undefined, // TODO: Add GitHub/repo link
-    detail: undefined,
+    detail: {
+      description: [
+        "A WAV audio player running on a NIOS II soft core in a MAX 10 FPGA: browses an SD card for .WAV files and plays them through the board's Avalon audio codec.",
+        "Needed to keep a hardware audio FIFO fed from a comparatively slow SD card in real time, while also reading debounced pushbuttons for transport control, with no RTOS underneath.",
+        "Built in stages: an audio-codec loopback test, a FatFs file monitor with a manual play command, a timer-interrupt button debouncer, then the full player combining all three.",
+      ],
+      howIBuiltIt: [
+        "Started with a polling loopback test — read a sample from the audio codec's input FIFO and immediately write it back out — to confirm the Avalon audio core and NIOS II wiring before touching storage.",
+        "Layered FatFs over an SD/SPI disk driver to scan the card's root directory for .WAV files and open them by name, then streamed fixed-size chunks into the codec's left/right FIFOs, busy-waiting on FIFO space between writes.",
+        "Wrote a periodic timer interrupt that samples all 4 pushbuttons and debounces each with an up/down counter against a threshold, exposing the result as a state array the main loop polls for press/release edges.",
+        "Combined all of it into one playback loop: transport buttons drive file selection and play/pause/rewind state, board switches pick normal/half/double-speed stereo or mono by changing how many bytes are skipped per audio frame, and an LCD character device shows the current track and state.",
+      ],
+      results: [
+        "Working end-to-end player: scans an SD card for WAV files and plays them through the audio codec, responding to all 4 transport buttons.",
+        "Switch-selected playback modes (half-speed, double-speed, mono) work by changing the FIFO write pattern alone, with no separate code path per mode.",
+        "Debounce and playback run concurrently without missing samples or button presses: a timer ISR samples buttons in the background while the main loop polls both button edges and audio FIFO space.",
+      ],
+      technologies: [
+        "NIOS II (soft-core CPU)",
+        "Altera/Intel MAX 10 FPGA",
+        "Avalon audio core",
+        "FatFs (SD card, SPI)",
+        "GPIO interrupts (debounce)",
+        "Character LCD (HAL device)",
+      ],
+    },
   },
   {
     slug: "ece298-reservoir-adapter",
     name: "Reservoir System Adapter",
     oneLiner:
-      "An STM32 interface PCB for a reservoir-system testbed: motor drivers, ultrasonic and RPM sensors, a servo, and an RGB indicator.",
-    period: undefined, // TODO: Add project dates
+      "An STM32 controller for a multi-pipeline reservoir irrigation system: pump/valve PWM, sensor feedback, and a serial-configured schedule.",
+    period: "Sept 2025 – Dec 2025",
     featured: true,
-    tags: ["Hardware", "PCB Design", "Sensors & Actuators"],
+    tags: ["Hardware", "PCB Design", "Firmware", "Sensors & Actuators"],
     problem:
-      // TODO: Clarify the assignment brief / system-level goal this board was built for.
-      "Interfacing an STM32 microcontroller with a reservoir-system testbed's motors, sensors, and indicators through a dedicated adapter board.",
-    contribution: undefined, // TODO: Clarify individual vs. team contribution for this project.
+      "Coordinating pump speed, valve routing, and status indicators against live sensor feedback, on a serial-configured hourly schedule, from bare-metal STM32.",
+    contribution: undefined, // TODO: Clarify individual vs. team contribution for this project (small team project, my share of the total system was limited).
     technologies: [
+      "STM32 (HAL)",
       "PCB / schematic capture (Proteus)",
-      "STM32",
-      "Motor driver ICs",
-      "Ultrasonic distance sensor (US-100)",
-      "RPM sensor",
-      "Servo control",
+      "Timer PWM & input capture",
+      "HC-SR04 ultrasonic sensor",
+      "RPM/flow sensor (GPIO interrupt)",
+      "Servo & DC motor driver control",
+      "UART serial CLI",
       "CMOS/TTL buffer & level-shifting ICs",
     ],
     accomplishments: [
-      "Designed and captured a multi-peripheral interface schematic connecting an STM32 to dual motor drivers, an RGB LED, a servo, an ultrasonic distance sensor, and an RPM sensor.",
-      "Buffered and level-shifted MCU I/O to the peripheral board using CMOS4050 and 74HCT541 logic, with a dedicated timer/display header for system status.",
+      "Built an STM32 firmware controller that runs a scheduled, multi-pipeline irrigation cycle: PWM-driven pump speed/direction and servo valve routing from a serial-configured 24-hour schedule per pipeline.",
+      "Implemented sensor and actuator drivers over STM32 HAL: ultrasonic water-level sensing via timer input-capture, interrupt/polling RPM (flow) measurement, a multiplexed 7-segment display, and an RGB status indicator.",
+      "Added a UART serial CLI for setup configuration and live telemetry, plus automatic pump shutoff and a manual potentiometer override for reservoir-empty and no-scheduled-speed cases.",
     ],
     image: {
       src: "/images/projects/stm32-clock-configuration.png",
@@ -122,7 +157,34 @@ export const projects: Project[] = [
       caption: "STM32CubeMX clock configuration for the board's MCU.",
     },
     github: undefined, // TODO: Add GitHub/repo link
-    detail: undefined,
+    detail: {
+      description: [
+        "A firmware controller for a reservoir irrigation testbed, coordinating a pump, a routing valve, and status indicators across four scheduled pipelines on an STM32 running bare-metal.",
+        "Needed to run an hours-long irrigation schedule using live sensor feedback (water level, flow) instead of fixed open-loop timing, configurable from a serial terminal.",
+        "Structured as a state machine — setup, run, empty-reservoir alarm, complete — on top of STM32 HAL drivers for each sensor and actuator.",
+      ],
+      howIBuiltIt: [
+        "Built a serial CLI over UART for setup: each of 4 pipelines gets a pump-speed preset and an active hour range, echoed back and confirmed with the on-board user button before the schedule starts.",
+        "Drove the pump bidirectionally over two PWM timer channels and the routing valve over a third, mapped to a servo angle per pipeline.",
+        "Measured water level with an HC-SR04 ultrasonic sensor via timer input-capture (echo pulse edge-timing), and flow rate from RPM-sensor ticks read by interrupt and by polling.",
+        "Advanced a software wall clock off a hardware timer interrupt to step through the 24-hour schedule, switching pump/valve/LED state each hour and logging pipeline, PWM, RPM, and depth over serial at every rollover.",
+      ],
+      results: [
+        "Working end-to-end loop: scheduled pump/valve switching across 4 pipelines, live water-level and flow sensing, and a 7-segment/RGB status readout.",
+        "Reservoir-empty and schedule-complete states both cut the pump automatically, with a manual potentiometer override whenever a pipeline has no scheduled speed.",
+        "Serial telemetry (pipeline, PWM, RPM, depth) logged at every hour rollover, for checking the schedule against actual sensor readings.",
+      ],
+      technologies: [
+        "STM32 (HAL)",
+        "PCB / schematic capture (Proteus)",
+        "Timer PWM & input capture",
+        "HC-SR04 ultrasonic sensor",
+        "RPM/flow sensor (GPIO interrupt)",
+        "Servo & DC motor driver control",
+        "UART serial CLI",
+        "CMOS/TTL buffer & level-shifting ICs",
+      ],
+    },
   },
   {
     slug: "graph-route-optimization",
