@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, getProjectBySlug } from "@/data/projects";
-import { MemoryBar } from "@/components/MemoryBar";
 import { PageBackdrop } from "@/components/PageBackdrop";
 
 export function generateStaticParams() {
@@ -54,12 +53,10 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[13px] text-ink-muted">
             {project.period && <span>{project.period}</span>}
-            {project.github ? (
+            {project.github && (
               <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-signal hover:text-signal-soft">
                 GitHub ↗
               </a>
-            ) : (
-              <span className="text-ink-faint">Repo link coming soon</span>
             )}
             {project.demo && (
               <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-signal hover:text-signal-soft">
@@ -70,7 +67,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         </div>
 
         {project.image && (
-          <div className="container-content mt-12">
+          <div className="container-content mt-6">
             <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-md border border-line bg-schematic-grid bg-grid bg-base-raised sm:aspect-[21/9]">
               <Image
                 src={project.image.src}
@@ -116,10 +113,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               </div>
             </div>
           </aside>
-        </div>
-
-        <div className="mt-20">
-          <MemoryBar />
         </div>
       </article>
     </PageBackdrop>

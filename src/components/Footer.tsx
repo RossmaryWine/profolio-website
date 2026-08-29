@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { site } from "@/data/site";
-import { MemoryBar } from "@/components/MemoryBar";
 
 export function Footer() {
   return (
     <footer className="border-t border-line bg-base-raised">
-      <MemoryBar />
       <div className="container-content flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="font-display text-base font-semibold text-ink">{site.name}</p>

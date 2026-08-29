@@ -67,7 +67,7 @@ export function ProjectCard({ project }: { project: Project }) {
               View project →
             </Link>
           )}
-          {project.github ? (
+          {project.github && (
             <a
               href={project.github}
               target="_blank"
@@ -76,12 +76,6 @@ export function ProjectCard({ project }: { project: Project }) {
             >
               GitHub ↗
             </a>
-          ) : (
-            !hasDetail && (
-              <span className="font-mono text-[13px] uppercase tracking-wide text-ink-faint">
-                Repo link coming soon
-              </span>
-            )
           )}
         </div>
       </div>

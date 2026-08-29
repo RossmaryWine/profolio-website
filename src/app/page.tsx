@@ -1,7 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FeaturedProjectRow } from "@/components/FeaturedProjectRow";
-import { MemoryBar } from "@/components/MemoryBar";
 import { ContactSection } from "@/components/ContactSection";
 import { PageBackdrop } from "@/components/PageBackdrop";
 import { featuredProjects } from "@/data/projects";
@@ -27,8 +26,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        <MemoryBar />
 
         <ContactSection />
       </PageBackdrop>

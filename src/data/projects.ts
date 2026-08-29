@@ -232,7 +232,8 @@ export const projects: Project[] = [
       alt: "Diagram of the agent mesh routing signals between data sources and platform integrations",
       caption: "Solace Agent Mesh routing signals between sources and integrations.",
     },
-    github: undefined, // TODO: Add GitHub/repo link
+    github: "https://github.com/wentansu/focus-monitor",
+    demo: "https://www.youtube.com/shorts/UphLOVXhr5w",
     detail: {
       description: [
         "A hackathon prototype that judges whether someone is still focused from live biometric signals and forces a break when they're not, built around a Solace Agent Mesh multi agent pipeline.",
