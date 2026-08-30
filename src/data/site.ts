@@ -1,3 +1,5 @@
+import { basePath } from "@/lib/basePath";
+
 export const site = {
   name: "Michael Zhu",
   title: "Firmware & Embedded Systems Engineer",
@@ -11,7 +13,7 @@ export const site = {
   phoneHref: "tel:+15489946880",
   github: "https://github.com/RossmaryWine",
   linkedin: "https://www.linkedin.com/in/michael-zhu-3682a1250/",
-  resumeHref: "/resume/michael-zhu-resume.pdf",
+  resumeHref: `${basePath}/resume/michael-zhu-resume.pdf`,
   intro:
     "I'm an Electrical and Computer Engineering student at the University of Waterloo. I have a dedicated interest in firmware and embedded systems, and I'm excited to keep building, creating, and learning in this space.",
   heroSkills: [

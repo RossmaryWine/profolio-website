@@ -27,19 +27,22 @@ export function Navbar() {
         <nav className="hidden items-center gap-1 md:flex">
           {nav.map((item) => {
             const active = !item.external && pathname === item.href;
-            return (
-              <Link
+            const className = cn(
+              "rounded px-3 py-2 font-mono text-[13px] uppercase tracking-wide transition-colors",
+              active ? "text-signal" : "text-ink-soft hover:text-ink"
+            );
+            return item.external ? (
+              <a
                 key={item.href}
                 href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noopener noreferrer" : undefined}
-                className={cn(
-                  "rounded px-3 py-2 font-mono text-[13px] uppercase tracking-wide transition-colors",
-                  active
-                    ? "text-signal"
-                    : "text-ink-soft hover:text-ink"
-                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
               >
+                {item.label}
+              </a>
+            ) : (
+              <Link key={item.href} href={item.href} className={className}>
                 {item.label}
               </Link>
             );
@@ -66,18 +69,31 @@ export function Navbar() {
       {open && (
         <nav className="border-t border-line bg-base md:hidden">
           <div className="container-content flex flex-col py-2">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noopener noreferrer" : undefined}
-                className="border-b border-line-soft py-3 font-mono text-[13px] uppercase tracking-wide text-ink-soft last:border-0 hover:text-signal"
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) => {
+              const className =
+                "border-b border-line-soft py-3 font-mono text-[13px] uppercase tracking-wide text-ink-soft last:border-0 hover:text-signal";
+              return item.external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={className}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={className}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
         </nav>
       )}

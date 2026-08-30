@@ -1,4 +1,5 @@
 import { Project } from "@/types";
+import { basePath } from "@/lib/basePath";
 
 export const projects: Project[] = [
   // ---------------------------------------------------------------------
@@ -28,7 +29,7 @@ export const projects: Project[] = [
       "Implemented a SysTick driven preemptive Earliest Deadline First (EDF) scheduler with dynamically allocated task stacks, deadline based priorities, task periodicity, and runtime deadline updates.",
     ],
     image: {
-      src: "/images/projects/rtos-nucleo-board.png",
+      src: `${basePath}/images/projects/rtos-nucleo-board.png`,
       alt: "STM32 Nucleo development board running the RTOS kernel firmware",
       caption: "The kernel running on the STM32 Nucleo board.",
     },
@@ -89,7 +90,7 @@ export const projects: Project[] = [
       "Drove a live LCD readout of the current track name and playback state through the NIOS II HAL's character device driver.",
     ],
     image: {
-      src: "/images/projects/de2-fpga-board.jpeg",
+      src: `${basePath}/images/projects/de2-fpga-board.jpeg`,
       alt: "Altera FPGA development board with audio, SD card, and LCD peripherals",
       caption: "An Altera/NIOS II FPGA platform: the same class of hardware the audio player runs on.",
     },
@@ -147,7 +148,7 @@ export const projects: Project[] = [
       "Added a UART serial CLI for setup configuration and live telemetry, plus automatic pump shutoff and a manual potentiometer override for reservoir empty and no scheduled speed cases.",
     ],
     image: {
-      src: "/images/projects/stm32-clock-configuration.png",
+      src: `${basePath}/images/projects/stm32-clock-configuration.png`,
       alt: "STM32CubeMX clock configuration view for the adapter board's microcontroller",
       caption: "STM32CubeMX clock configuration for the board's MCU.",
     },
@@ -228,7 +229,7 @@ export const projects: Project[] = [
       "Built a fullscreen Tkinter \"focus lost\" overlay, spawned automatically on a distraction verdict, that locks out interaction behind a countdown before the user can acknowledge and dismiss it.",
     ],
     image: {
-      src: "/images/projects/ottohack8-integration-diagram.jpeg",
+      src: `${basePath}/images/projects/ottohack8-integration-diagram.jpeg`,
       alt: "Diagram of the agent mesh routing signals between data sources and platform integrations",
       caption: "Solace Agent Mesh routing signals between sources and integrations.",
     },

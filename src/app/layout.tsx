@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { site } from "@/data/site";
+import { basePath } from "@/lib/basePath";
 
 const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -29,8 +30,10 @@ const plexMono = IBM_Plex_Mono({
 const description =
   "Portfolio of Michael Zhu, an Electrical & Computer Engineering student at the University of Waterloo focused on firmware, embedded systems, and real time software.";
 
+const deployedUrl = "https://rossmarywine.github.io/profolio-website";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"), // TODO: Replace with your deployed domain
+  metadataBase: new URL(deployedUrl),
   title: {
     default: `${site.name} · ${site.title}`,
     template: `%s · ${site.name}`,
@@ -51,7 +54,7 @@ export const metadata: Metadata = {
     title: `${site.name} · ${site.title}`,
     description,
     type: "website",
-    url: "https://example.com", // TODO: Replace with your deployed domain
+    url: deployedUrl,
     siteName: `${site.name} Portfolio`,
   },
   twitter: {
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
     description,
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: `${basePath}/favicon.svg`,
   },
 };
 
